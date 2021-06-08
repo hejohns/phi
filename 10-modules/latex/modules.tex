@@ -75,14 +75,15 @@
 \newcommand{\violettt}[1]{\textcolor{violet}{\mathtt{#1}}}
 \newcommand{\violetit}[1]{\textcolor{violet}{\mathit{#1}}}
 
-\newcommand{\knd}[1][]{\redit{knd#1}}
-\newcommand{\kndvar}[1][]{\redit{\kappa#1}}
+\newcommand{\knd}[1][]{\redit{\kappa#1}}
 \newcommand{\typ}[1][]{\greenit{\tau#1}}
-\newcommand{\typvar}[1][]{\greenit{\alpha#1}}
-\newcommand{\modle}[1][]{\tealit{mod#1}}
-\newcommand{\modlevar}[1][]{\tealit{\mu#1}}
+\newcommand{\typvar}[1][]{\greenit{t#1}}
+\renewcommand{\exp}[1][]{\blueit{\delta#1}}
+\newcommand{\expvar}[1][]{\blueit{x#1}}
+\renewcommand{\mod}[1][]{\tealit{mod#1}}
+\newcommand{\modvar}[1][]{\tealit{m#1}}
 \newcommand{\sig}[1][]{\purpleit{sig#1}}
-\newcommand{\sigvar}[1][]{\purpleit{\sigma#1}}
+\newcommand{\sigvar}[1][]{\purpleit{s#1}}
 \newcommand{\lab}[1][]{\mathit{lab#1}}
 
 \newcommand{\Type}{\redtt{Type}}
@@ -107,6 +108,8 @@
 \newcommand{\Functor}[2]{\tealtt{\lambda #1.#2}}
 \newcommand{\FunctorAp}[2]{\tealtt{#1~#2}}
 \newcommand{\SubModulePrj}[2]{\tealtt{#1.#2}}
+\newcommand{\ModleTermPrj}[2]{\bluett{#1.#2}}
+\newcommand{\LetModle}[2]{\tealtt{module~#1=#2}\bluett{~in~\exp}}
 
 \newcommand{\FunctorSig}[2]{\purplett{\Pi_{#1}.{#2}}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -142,7 +145,8 @@
                    && \vert & \greentt{+} \\
                    && \vert & \greentt{\rightarrow}\\
     \textrm{internal HTyp} & \typ & ::=
-                           & \greenit{bse} \\
+                           & \typvar & \textrm{type variable} \\
+                           && \vert & \greenit{bse} \\
                            && \vert & \TypCFun{\typvar::\knd}{\typ} \\
                            && \vert & \TypCAp{\typ[_1]}{\typ[_2]} \\
                            && \vert & \greentt{\typ[_1] \oplus \typ[_2]} \\
@@ -150,16 +154,23 @@
                            && \vert & \TypCPairPrjL{\typ} \\
                            && \vert & \TypCPairPrjR{\typ} \\
                            && \vert & \greentt{\{\lab[_1] \hookrightarrow \typ[_1], ...~\lab[_n] \hookrightarrow \typ[_n]\}} \\
-                           && \vert & \greentt{\modle.\lab} \\
+                           && \vert & \greentt{\mod.\lab} \\
                            && \vert & \TypCHole{} \\
                            && \vert & \TypCHole{\typ} \\
-    \textrm{module} & \modle & ::=
-                    & [sbnd] \\
-                    && \vert & \Functor{\modlevar::\sig}{\modle} \\
-                    && \vert & \FunctorAp{\modle[_1]}{\modle[_2]} \\
-                    && \vert & \SubModulePrj{\modle}{\lab} \\
+    \textrm{module} & \mod & ::=
+                    & \modvar & \textrm{module variable} \\
+                    && \vert & [sbnd] & \textrm{structure} \\
+                    && \vert & \Functor{\modvar::\sig}{\mod} & \textrm{functor} \\
+                    && \vert & \FunctorAp{\mod[_1]}{\mod[_2]} & \textrm{functor application} \\
+                    && \vert & \SubModulePrj{\mod}{\lab} & \textrm{submodule projection} \\
     \textrm{signature} & \sig & ::=
-                       & \\
-                       && \vert & \FunctorSig{\modlevar::\sig[_1]}{\sig[_2]} \\
+                       & \sigvar & \textrm{signature variable} \\
+                       && \vert & [sdec] & \textrm{structure signature} \\
+                       && \vert & \FunctorSig{\modvar::\sig[_1]}{\sig[_2]} & \textrm{functor signature} \\
+    \textrm{internal expression} & \exp & ::=
+                                 & \expvar \\
+                                 && \vert & \LetModle{p}{e} \\
+                                 && \vert & \ModleTermPrj{\mod}{\lab} & \textrm{module term projection} \\
+                                 && \vert & \textit{elided} \\
 \end{array}\]
 \end{document}
