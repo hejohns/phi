@@ -57,24 +57,28 @@
 \definecolor{purple}{HTML}{800080}
 \definecolor{teal}{HTML}{008080}
 \definecolor{black}{HTML}{000000}
+\definecolor{grey}{HTML}{808080}
 \newcommand{\red}[1]{\textcolor{red}{#1}}
 \newcommand{\green}[1]{\textcolor{green}{#1}}
 \newcommand{\blue}[1]{\textcolor{blue}{#1}}
 \newcommand{\purple}[1]{\textcolor{purple}{#1}}
 \newcommand{\teal}[1]{\textcolor{teal}{#1}}
 \newcommand{\black}[1]{\textcolor{black}{#1}}
+\newcommand{\grey}[1]{\textcolor{grey}{#1}}
 \newcommand{\redtt}[1]{\red{\mathtt{#1}}}
 \newcommand{\greentt}[1]{\green{\mathtt{#1}}}
 \newcommand{\bluett}[1]{\blue{\mathtt{#1}}}
 \newcommand{\purplett}[1]{\purple{\mathtt{#1}}}
 \newcommand{\tealtt}[1]{\teal{\mathtt{#1}}}
 \newcommand{\blacktt}[1]{\black{\mathtt{#1}}}
+\newcommand{\greytt}[1]{\grey{\mathtt{#1}}}
 \newcommand{\redit}[1]{\red{\mathit{#1}}}
 \newcommand{\greenit}[1]{\green{\mathit{#1}}}
 \newcommand{\blueit}[1]{\blue{\mathit{#1}}}
 \newcommand{\purpleit}[1]{\purple{\mathit{#1}}}
 \newcommand{\tealit}[1]{\teal{\mathit{#1}}}
 \newcommand{\blackit}[1]{\black{\mathit{#1}}}
+\newcommand{\greyit}[1]{\grey{\mathit{#1}}}
 % traditional hazel hole color
 \newcommand{\violettt}[1]{\textcolor{violet}{\mathtt{#1}}}
 \newcommand{\violetit}[1]{\textcolor{violet}{\mathit{#1}}}
@@ -89,11 +93,6 @@
 \renewcommand{\mod}[1][]{\tealit{mod#1}}
 \newcommand{\modvar}[1][]{\tealit{m#1}}
 \newcommand{\lab}[1][]{\mathit{lab#1}}
-
-\newcommand{\sbnd}{\blackit{sbnd}}
-\newcommand{\sbnds}{\blackit{sbnds}}
-\newcommand{\sdec}{\blackit{sdec}}
-\newcommand{\sdecs}{\blackit{sdecs}}
 
 \newcommand{\Type}{\redtt{Type}}
 \newcommand{\SKind}[1]{\redtt{S(#1)}}
@@ -114,6 +113,10 @@
 \newcommand{\Float}{\greentt{Float}}
 \newcommand{\Bool}{\greentt{Bool}}
 
+\newcommand{\Sig}[1]{\purplett{\{#1\}}}
+\newcommand{\FunctorSig}[2]{\purplett{\Pi_{#1}.{#2}}}
+\newcommand{\LetSig}[2]{\purplett{signature~#1=#2}\bluett{~in~\exp}}
+
 \newcommand{\Struct}[1]{\tealtt{\{#1\}}}
 \newcommand{\Functor}[2]{\tealtt{\lambda #1.#2}}
 \newcommand{\FunctorAp}[2]{\tealtt{#1~#2}}
@@ -121,9 +124,10 @@
 \newcommand{\ModTermPrj}[2]{\bluett{#1.#2}}
 \newcommand{\LetMod}[2]{\tealtt{module~#1=#2}\bluett{~in~\exp}}
 
-\newcommand{\Sig}[1]{\purplett{\{#1\}}}
-\newcommand{\FunctorSig}[2]{\purplett{\Pi_{#1}.{#2}}}
-\newcommand{\LetSig}[2]{\purplett{signature~#1=#2}\bluett{~in~\exp}}
+\newcommand{\sbnd}{\greyit{sbnd}}
+\newcommand{\sbnds}{\greyit{sbnds}}
+\newcommand{\sdec}{\greyit{sdec}}
+\newcommand{\sdecs}{\greyit{sdecs}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \pagenumbering{gobble}
 \nonfrenchspacing
@@ -150,14 +154,17 @@
                   && \vert & \DepProdKind{\typvar::\knd[_1]}{\knd[_2]} & \textrm{dependent product kind} \\
     \textrm{internal HTyp} & \typ & ::=
                            & \typvar & \textrm{type variable} \\
-                           && \vert & \greenit{bse} \\
-                           && \vert & \TypCFun{\typvar::\knd}{\typ} \\
-                           && \vert & \TypCAp{\typ[_1]}{\typ[_2]} \\
-                           && \vert & \greentt{\typ[_1] \oplus \typ[_2]} \\
-                           && \vert & \TypCPair{\typ[_1]}{\typ[_2]} \\
-                           && \vert & \TypCPairPrjL{\typ} \\
-                           && \vert & \TypCPairPrjR{\typ} \\
-                           && \vert & \greentt{\{\lab[_1] \hookrightarrow \typ[_1], ...~\lab[_n] \hookrightarrow \typ[_n]\}} \\
+                           && \vert & \greenit{bse} & \textrm{base type} \\
+                           && \vert & \TypCFun{\typvar::\knd}{\typ} & \textrm{type function} \\
+                           && \vert & \TypCAp{\typ[_1]}{\typ[_2]} & \textrm{type application} \\
+                           && \vert & \greentt{\typ[_1] \oplus \typ[_2]} & \textrm{type binop} \\
+                           && \vert & \TypCPair{\typ[_1]}{\typ[_2]} & \textrm{type pair} \\
+                           && \vert & \TypCPairPrjL{\typ} & \textrm{type projection} \\
+                           && \vert & \TypCPairPrjR{\typ} & \textrm{type projection} \\
+                           && \vert & \greentt{\{\lab[_1] \hookrightarrow \typ[_1], ...~\lab[_n] \hookrightarrow \typ[_n]\}} & \textrm{labelled product type (record)} \\
+                           && \vert & \greentt{\mod.\lab} & \textrm{module type projection} \\
+                           && \vert & \TypCHole{} & \textrm{empty type hole} \\
+                           && \vert & \TypCHole{\typ} & \textrm{nonempty type hole} \\
     \textrm{base type} & \greenit{bse} & ::=
                        & \Int \\
                        && \vert & \Float \\
@@ -166,14 +173,11 @@
                    & \greentt{\times} \\
                    && \vert & \greentt{+} \\
                    && \vert & \greentt{\rightarrow}\\
-                           && \vert & \greentt{\mod.\lab} \\
-                           && \vert & \TypCHole{} \\
-                           && \vert & \TypCHole{\typ} \\
     \textrm{internal expression} & \exp & ::=
                                  & \expvar \\
-                                 && \vert & \LetMod{\modvar}{\mod} \\
-                                 && \vert & \LetMod{\modvar :: \sig}{\mod} \\
                                  && \vert & \LetSig{\sigvar}{\sig} \\
+                                 && \vert & \LetMod{\modvar}{\mod} \\
+                                 && \vert & \LetMod{\modvar :: \sigvar}{\mod} \\
                                  && \vert & \ModTermPrj{\mod}{\lab} & \textrm{module term projection} \\
                                  && \vert & \textit{elided} \\
     \textrm{signature} & \sig & ::=
@@ -186,11 +190,18 @@
                     && \vert & \Functor{\modvar::\sig}{\mod} & \textrm{functor} \\
                     && \vert & \FunctorAp{\mod[_1]}{\mod[_2]} & \textrm{functor application} \\
                     && \vert & \SubModulePrj{\mod}{\lab} & \textrm{submodule projection} \\
-    \textrm{structure bindings} & \sbnds & ::=
-                                & \epsilon \\
-                                && \vert & \sbnd,\sbnds \\
     \textrm{signature declarations} & \sdecs & ::=
                                 & \epsilon \\
                                 && \vert & \sdec,\sdecs\\
+    \textrm{signature declaration} & \sdec & ::=
+                                   & \greentt{type~\lab} \\
+                                   && \vert & \greentt{type~\lab = \typ} \\
+                                   && \vert & \bluett{val~\lab : \typ} \\
+                                   && \vert & \tealtt{module~\lab :: \sig} \\
+    \textrm{structure bindings} & \sbnds & ::=
+                                & \epsilon \\
+                                && \vert & \sbnd,\sbnds \\
+    \textrm{structure binding} & \sbnd & ::=
+                               & \greentt{type~t = \typ}
 \end{array}\]
 \end{document}
