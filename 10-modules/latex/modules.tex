@@ -89,15 +89,21 @@
 % syntax
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\knd}[1][]{\redit{\kappa#1}}
+\newcommand{\utyp}[1][]{\greenit{\hat{\tau#1}}}
 \newcommand{\typ}[1][]{\greenit{\tau#1}}
+\newcommand{\utypvar}[1][]{\greenit{t#1}}
 \newcommand{\typvar}[1][]{\greenit{t#1}}
-\newcommand{\uexp}[1][]{\blueit{\hat\delta#1}}
+\newcommand{\uexp}[1][]{\blueit{\hat{\delta#1}}}
 \newcommand{\uexpvar}[1][]{\blueit{x#1}}
 \renewcommand{\exp}[1][]{\blueit{\delta#1}}
 \newcommand{\expvar}[1][]{\blueit{x#1}}
+\newcommand{\usig}[1][]{\purpleit{\hat{sig#1}}}
 \newcommand{\sig}[1][]{\purpleit{sig#1}}
+\newcommand{\usigvar}[1][]{\purpleit{\hat{s#1}}}
 \newcommand{\sigvar}[1][]{\purpleit{s#1}}
+\newcommand{\umod}[1][]{\tealit{\hat{mod#1}}}
 \renewcommand{\mod}[1][]{\tealit{mod#1}}
+\newcommand{\umodvar}[1][]{\tealit{m#1}}
 \newcommand{\modvar}[1][]{\tealit{m#1}}
 \newcommand{\lab}[1][]{\mathit{lab#1}}
 
@@ -166,16 +172,16 @@
     term/.style={circle, draw=blue!100, fill=blue!10, thick},
     signature/.style={rectangle, draw=purple!100, fill=purple!10, thick},
     module/.style={rectangle, draw=teal!100, fill=teal!10, thick},
-    ->/.style={line join=round, decorate, decoration={zigzag, segment length=4, amplitude=.9, post=lineto, post length=2pt}}
+    ->/.style={line join=round, decorate, decoration={zigzag, segment length=4, amplitude=.9, post=lineto, post length=10pt}}
     ]
     \node[kind](knd) at (0, 2){$\knd$};
-    \node[type](utyp) at (-1, 1){$\typ$};
+    \node[type](utyp) at (-1, 1){$\utyp$};
     \node[type](typ) at (1, 1){$\typ$};
     \node[term](uexp) at (-1, 0){$\uexp$};
     \node[term](exp) at (1, 0){$\exp$};
-    \node[signature](usig) at (3, 2){$\sig$};
+    \node[signature](usig) at (3, 2){$\usig$};
     \node[signature](sig) at (5, 2){$\sig$};
-    \node[module](umod) at (3, 1){$\mod$};
+    \node[module](umod) at (3, 1){$\umod$};
     \node[module](mod)at (5, 1){$\mod$};
     \draw[->](utyp.east)--(typ.west);
     \draw[->](uexp.east)--(exp.west);
@@ -196,20 +202,22 @@
                   && \vert & \DepProdKind{\typvar::\knd[_1]}{\knd[_2]} & \textrm{dependent product kind} \\
 \end{array}\]
 \[\begin{array}{rcrlr}
-    \textrm{external HTyp} & \typ & ::=
-                           & \typvar & \textrm{type variable} \\
+    \textrm{external HTyp} & \utyp & ::=
+                           & \utypvar & \textrm{type variable} \\
                            && \vert & \greenit{bse} & \textrm{base type} \\
-                           && \vert & \greentt{\typ[_1] \oplus \typ[_2]} & \textrm{type binop} \\
-                           && \vert & \ListTyp{\typ} & \textrm{list type} \\
-                           && \vert & \TypCFun{\typvar::\knd}{\typ} & \textrm{type function} \\
-                           && \vert & \TypCAp{\typ[_1]}{\typ[_2]} & \textrm{type application} \\
-                           && \vert & \TypCPair{\typ[_1]}{\typ[_2]} & \textrm{type pair} \\
-                           && \vert & \TypCPairPrjL{\typ} & \textrm{type projection} \\
-                           && \vert & \TypCPairPrjR{\typ} & \textrm{type projection} \\
-                           && \vert & \greentt{\{\lab[_1] \hookrightarrow \typ[_1], ...~\lab[_n] \hookrightarrow \typ[_n]\}} & \textrm{labelled product type (record)} \\
+                           && \vert & \greentt{\utyp[_1] \oplus \utyp[_2]} & \textrm{type binop} \\
+                           && \vert & \ListTyp{\utyp} & \textrm{list type} \\
+                           && \vert & \TypCFun{\typvar::\knd}{\utyp} & \textrm{type function} \\
+                           && \vert & \TypCAp{\utyp[_1]}{\utyp[_2]} & \textrm{type application} \\
+                           && \vert & \TypCPair{\utyp[_1]}{\utyp[_2]} & \textrm{type pair} \\
+                           && \vert & \TypCPairPrjL{\utyp} & \textrm{type projection} \\
+                           && \vert & \TypCPairPrjR{\utyp} & \textrm{type projection} \\
+                           && \vert & \greentt{\{\lab[_1] \hookrightarrow \utyp[_1], ...~\lab[_n] \hookrightarrow \utyp[_n]\}} & \textrm{labelled product type (record)} \\
                            && \vert & \greentt{\mod.\lab} & \textrm{module type projection} \\
                            && \vert & \TypCHole & \textrm{empty type hole} \\
-                           && \vert & \TypCHole[\typ] & \textrm{nonempty type hole} \\
+                           && \vert & \TypCHole[\utyp] & \textrm{nonempty type hole} \\
+\end{array}\]
+\[\begin{array}{rcrlr}
     \textrm{internal HTyp} & \typ & ::=
                            & \typvar & \textrm{type variable} \\
                            && \vert & \greenit{bse} & \textrm{base type} \\
@@ -224,10 +232,14 @@
                            && \vert & \greentt{\mod.\lab} & \textrm{module type projection} \\
                            && \vert & \TypCHole & \textrm{empty type hole} \\
                            && \vert & \TypCHole[\typ] & \textrm{nonempty type hole} \\
+\end{array}\]
+\[\begin{array}{rcrlr}
     \textrm{base type} & \greenit{bse} & ::=
                        & \Int \\
                        && \vert & \Float \\
                        && \vert & \Bool \\
+\end{array}\]
+\[\begin{array}{rcrlr}
     \textrm{HTyp BinOp} & \greenit{\oplus} & ::=
                    & \greentt{\times} \\
                    && \vert & \greentt{+} \\
@@ -241,6 +253,8 @@
                                  && \vert & \uLetMod{\modvar :: \sigvar}{\mod} \\
                                  && \vert & \uModTermPrj{\mod}{\lab} & \textrm{module term projection} \\
                                  && \vert & \textit{elided} \\
+\end{array}\]
+\[\begin{array}{rcrlr}
     \textrm{internal expression} & \exp & ::=
                                  & \expvar \\
                                  && \vert & \LetSig{\sigvar}{\sig} \\
@@ -249,11 +263,21 @@
                                  && \vert & \textit{elided} \\
 \end{array}\]
 \[\begin{array}{rcrlr}
-    \textrm{signature} & \sig & ::=
+    \textrm{external signature} & \usig & ::=
+                       & \usigvar & \textrm{signature variable} \\
+                       && \vert & \Sig{\sdecs} & \textrm{structure signature} \\
+                       && \vert & \FunctorSig{\modvar::\usig[_1]}{\usig[_2]} & \textrm{functor signature} \\
+    \textrm{internal signature} & \sig & ::=
                        & \sigvar & \textrm{signature variable} \\
                        && \vert & \Sig{\sdecs} & \textrm{structure signature} \\
                        && \vert & \FunctorSig{\modvar::\sig[_1]}{\sig[_2]} & \textrm{functor signature} \\
-    \textrm{module} & \mod & ::=
+    \textrm{external module} & \umod & ::=
+                    & \umodvar & \textrm{module variable} \\
+                    && \vert & \Struct{\sbnds} & \textrm{structure} \\
+                    && \vert & \Functor{\umodvar::\sig}{\umod} & \textrm{functor} \\
+                    && \vert & \FunctorAp{\umod[_1]}{\umod[_2]} & \textrm{functor application} \\
+                    && \vert & \SubModulePrj{\umod}{\lab} & \textrm{submodule projection} \\
+    \textrm{internal module} & \mod & ::=
                     & \modvar & \textrm{module variable} \\
                     && \vert & \Struct{\sbnds} & \textrm{structure} \\
                     && \vert & \Functor{\modvar::\sig}{\mod} & \textrm{functor} \\
