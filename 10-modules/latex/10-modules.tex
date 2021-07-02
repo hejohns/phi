@@ -226,21 +226,21 @@
         \newcommand{\SigAnn}{\black{:_{\mod}}}
 
         \newcommand{\ConsistentSubkindOp}{\lesssim}
-        \newcommand{\ConsistentSubkind}[3]{\mathrm{#1 \vdash #2 \ConsistentSubkindOp #3}}
+        \NewDocumentCommand{\ConsistentSubkind}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx}mm}{\mathrm{#1 \vdash #2 \ConsistentSubkindOp #3}}
         \newcommand{\ConsistentSubSigKindOp}{\lesssim_{\sigknd}}
         \newcommand{\ConsistentSubSigKind}[3]{\mathrm{#1 \vdash #2 \ConsistentSubSigKindOp #3}}
         \newcommand*{\SubSdecOp}{\le_{\sdec}}
         \newcommand*{\SubSdec}[3]{\mathrm{#1 \vdash #2 \SubSdecOp #3}}
 
         \newcommand*{\TypeEquivOp}{\equiv}
-        \NewDocumentCommand{\TypeEquiv}{O{\HoleCtx;\TypVarCtx;\ModVarCtx;\SigVarCtx}mm}{\mathrm{#1 \vdash #2 \TypeEquivOp #3}}
+        \NewDocumentCommand{\TypeEquiv}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx}mm}{\mathrm{#1 \vdash #2 \TypeEquivOp #3}}
         \newcommand*{\KindEquivOp}{\equiv}
-        \NewDocumentCommand{\KindEquiv}{O{\HoleCtx;\TypVarCtx;\ModVarCtx;\SigVarCtx}mm}{\mathrm{#1 \vdash #2 \KindEquivOp #3}}
+        \NewDocumentCommand{\KindEquiv}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx}mm}{\mathrm{#1 \vdash #2 \KindEquivOp #3}}
         \newcommand*{\SigEquivOp}{\equiv}
         \newcommand*{\SigEquiv}[3]{\mathrm{#1 \vdash #2 \SigEquivOp #3}}
         \newcommand*{\SigKindEquiv}[3]{\mathrm{#1 \vdash #2 \equiv #3}}
         \newcommand*{\WellFormedAtType}[3]{\mathrm{#1 \vdash #2 \TypAsc #3}}
-        \NewDocumentCommand{\WellFormedAtKind}{O{\HoleCtx;\TypVarCtx;\ModVarCtx;\SigVarCtx}mm}{\mathrm{#1 \vdash #2 \KndAsc #3}}
+        \NewDocumentCommand{\WellFormedAtKind}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx}mm}{\mathrm{#1 \vdash #2 \KndAsc #3}}
         \newcommand*{\WellFormedAtSig}[3]{\mathrm{#1 \vdash #2 \SigAsc #3}}
         \newcommand*{\WellFormedAtSigKind}[3]{\mathrm{#1 \vdash #2 \SigKndAsc #3}}
     % algorithmic
