@@ -232,8 +232,10 @@
         \newcommand*{\SubSdecOp}{\le_{\sdec}}
         \newcommand*{\SubSdec}[3]{\mathrm{#1 \vdash #2 \SubSdecOp #3}}
 
-        \newcommand*{\TypeEquiv}[3]{\mathrm{#1 \vdash #2 \equiv #3}}
-        \newcommand*{\KindEquiv}[3]{\mathrm{#1 \vdash #2 \equiv #3}}
+        \newcommand*{\TypeEquivOp}{\equiv}
+        \NewDocumentCommand{\TypeEquiv}{O{\HoleCtx;\TypVarCtx;\ModVarCtx;\SigVarCtx}mm}{\mathrm{#1 \vdash #2 \TypeEquivOp #3}}
+        \newcommand*{\KindEquivOp}{\equiv}
+        \newcommand*{\KindEquiv}[3]{\mathrm{#1 \vdash #2 \KindEquivOp #3}}
         \newcommand*{\SigEquiv}[3]{\mathrm{#1 \vdash #2 \equiv #3}}
         \newcommand*{\SigKindEquiv}[3]{\mathrm{#1 \vdash #2 \equiv #3}}
         \newcommand*{\WellFormedAtType}[3]{\mathrm{#1 \vdash #2 \TypAsc #3}}
