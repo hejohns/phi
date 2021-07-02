@@ -198,11 +198,11 @@
     \newcommand{\FunctorSbnd}[2]{\tealtt{functor~#1 = #2}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % misc
-    \newcommand*{\ExpVarCtx}{\Gamma}
-    \newcommand*{\TypVarCtx}{\Phi}
-    \newcommand*{\ModVarCtx}{\Xi}
-    \newcommand*{\SigVarCtx}{\Psi}
-    \newcommand*{\HoleCtx}{\Delta}
+    \newcommand*{\ExpVarCtx}[1][;]{\Gamma#1}
+    \newcommand*{\TypVarCtx}[1][;]{\Phi#1}
+    \newcommand*{\ModVarCtx}[1][;]{\Xi#1}
+    \newcommand*{\SigVarCtx}[1][;]{\Psi#1}
+    \newcommand*{\HoleCtx}[1][;]{\Delta#1}
     \newcommand{\dom}[1]{\mathsf{dom(}#1\mathsf{)}}
     \newcommand{\val}[1]{\mathsf{val(}#1\mathsf{)}}
     \newcommand*{\type}[2]{\mathsf{type(}#1, #2\mathsf{)}}
@@ -235,11 +235,12 @@
         \newcommand*{\TypeEquivOp}{\equiv}
         \NewDocumentCommand{\TypeEquiv}{O{\HoleCtx;\TypVarCtx;\ModVarCtx;\SigVarCtx}mm}{\mathrm{#1 \vdash #2 \TypeEquivOp #3}}
         \newcommand*{\KindEquivOp}{\equiv}
-        \newcommand*{\KindEquiv}[3]{\mathrm{#1 \vdash #2 \KindEquivOp #3}}
-        \newcommand*{\SigEquiv}[3]{\mathrm{#1 \vdash #2 \equiv #3}}
+        \NewDocumentCommand{\KindEquiv}{O{\HoleCtx;\TypVarCtx;\ModVarCtx;\SigVarCtx}mm}{\mathrm{#1 \vdash #2 \KindEquivOp #3}}
+        \newcommand*{\SigEquivOp}{\equiv}
+        \newcommand*{\SigEquiv}[3]{\mathrm{#1 \vdash #2 \SigEquivOp #3}}
         \newcommand*{\SigKindEquiv}[3]{\mathrm{#1 \vdash #2 \equiv #3}}
         \newcommand*{\WellFormedAtType}[3]{\mathrm{#1 \vdash #2 \TypAsc #3}}
-        \newcommand*{\WellFormedAtKind}[3]{\mathrm{#1 \vdash #2 \KndAsc #3}}
+        \NewDocumentCommand{\WellFormedAtKind}{O{\HoleCtx;\TypVarCtx;\ModVarCtx;\SigVarCtx}mm}{\mathrm{#1 \vdash #2 \KndAsc #3}}
         \newcommand*{\WellFormedAtSig}[3]{\mathrm{#1 \vdash #2 \SigAsc #3}}
         \newcommand*{\WellFormedAtSigKind}[3]{\mathrm{#1 \vdash #2 \SigKndAsc #3}}
     % algorithmic
