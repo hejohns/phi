@@ -83,7 +83,7 @@
     \newcommand*{\uFunctorSig}{\FunctorSig}
     \newcommand{\FunctorSig}[2]{\purplett{\Pi_{#1}.{#2}}}
     \newcommand*{\uSigHole}{\SigHole}
-    \NewDocumentCommand{\SigHole}{O{}O{}}{\purplett{\llparenthesis#1\rrparenthesis#2}}
+    \NewDocumentCommand{\SigHole}{O{}O{^{\hole}}}{\purplett{\llparenthesis#1\rrparenthesis#2}}
     \newcommand*{\UnboundSigVar}[1][]{\uwave{\hphantom{.}\sigvar\hphantom{.}}}
 
     \newcommand{\Struct}[1]{\tealtt{\{#1\}}}
@@ -145,33 +145,33 @@
         \newcommand*{\SigKndAsc}{\black{::_{\sig}}}
         \newcommand*{\SigKndAssump}{\SigKndAsc}
 
-        \newcommand{\ConsistentSubkindOp}{\lesssim}
-        \NewDocumentCommand{\ConsistentSubkind}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx}mm}{\mathrm{#1 \vdash #2 \ConsistentSubkindOp #3}}
+        \newcommand{\ConsistentSubKindOp}{\lesssim}
+        \NewDocumentCommand{\ConsistentSubKind}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx}mm}{\mathrm{#1 \vdash #2 \ConsistentSubKindOp #3}}
         \newcommand{\ConsistentSubSigKindOp}{\lesssim_{\sigknd}}
         \newcommand{\ConsistentSubSigKind}[3]{\mathrm{#1 \vdash #2 \ConsistentSubSigKindOp #3}}
         \newcommand*{\SubSdecOp}{\le_{\sdec}}
         \newcommand*{\SubSdec}[3]{\mathrm{#1 \vdash #2 \SubSdecOp #3}}
 
         \newcommand*{\TypeEquivOp}{\equiv}
-        \NewDocumentCommand{\TypeEquiv}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}O{\typ[_1]}O{\typ[_2]}}{\mathrm{#1 \vdash #2 \TypeEquivOp #3}}
+        \NewDocumentCommand{\TypeEquiv}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}mmO{\knd}}{\mathrm{#1 \vdash #2 \stackrel{#4}{\TypeEquivOp} #3}}
         \newcommand*{\KindEquivOp}{\equiv}
-        \NewDocumentCommand{\KindEquiv}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}O{\knd[_1]}O{\knd[_2]}}{\mathrm{#1 \vdash #2 \KindEquivOp #3}}
+        \NewDocumentCommand{\KindEquiv}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}mm}{\mathrm{#1 \vdash #2 \KindEquivOp #3}}
         \newcommand*{\SigEquivOp}{\equiv}
-        \NewDocumentCommand{\SigEquiv}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}O{\sig[_1]}O{\sig[_2]}}{\mathrm{#1 \vdash #2 \SigEquivOp #3}}
+        \NewDocumentCommand{\SigEquiv}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}mmO{\sigknd}}{\mathrm{#1 \vdash #2 \stackrel{#4}{\SigEquivOp} #3 #4}}
         \newcommand*{\SigKindEquivOp}{\equiv}
-        \newcommand*{\SigKindEquiv}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}O{\sigknd[_1]}O{\sigknd[_2]}}{\mathrm{#1 \vdash #2 \equiv #3}}
+        \NewDocumentCommand{\SigKindEquiv}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}mm}{\mathrm{#1 \vdash #2 \equiv #3}}
         \newcommand*{\WellFormedAtType}[3]{\mathrm{#1 \vdash #2 \TypAsc #3}}
-        \NewDocumentCommand{\WellFormedAtKind}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}O{\typ}O{\knd}}{\mathrm{#1 \vdash #2 \KndAsc #3}}
-        \NewDocumentCommand{\WellFormedAtSig}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}O{\mod}O{\sig}}{\mathrm{#1 \vdash #2 \SigAsc #3}}
-        \NewDocumentCommand{\WellFormedAtSigKind}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}O{\sig}O{\sigknd}}{\mathrm{#1 \vdash #2 \SigKndAsc #3}}
+        \NewDocumentCommand{\WellFormedAtKind}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}mO{\knd}}{\mathrm{#1 \vdash #2 \KndAsc #3}}
+        \NewDocumentCommand{\WellFormedAtSig}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}mO{\sig}}{\mathrm{#1 \vdash #2 \SigAsc #3}}
+        \NewDocumentCommand{\WellFormedAtSigKind}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}mO{\sigknd}}{\mathrm{#1 \vdash #2 \SigKndAsc #3}}
     % algorithmic
         \newcommand{\Syn}[3]{#1 \vdash #2~\Rightarrow~#3}
-        \NewDocumentCommand{\SynKind}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}O{\typ}O{\knd}}{\Syn{#1}{#2}{#3}}
+        \NewDocumentCommand{\SynKind}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}mO{\knd}}{\Syn{#1}{#2}{#3}}
         \newcommand{\Ana}[3]{#1 \vdash #2~\Leftarrow~#3}
-        \NewDocumentCommand{\AnaKind}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}O{\typ}O{\knd}}{\Ana{#1}{#2}{#3}}
+        \NewDocumentCommand{\AnaKind}{O{\HoleCtx\TypVarCtx\ModVarCtx\SigVarCtx[]}mO{\knd}}{\Ana{#1}{#2}{#3}}
         \newcommand{\SynElab}[5]{#1 \vdash #2~\Rightarrow~#3 \rightsquigarrow #4 \dashv #5}
-        \NewDocumentCommand{\SynKindElab}{O{\TypVarCtx\ModVarCtx\SigVarCtx[]}O{\utyp}O{\knd}O{\typ}O{\HoleCtx[]}}{\SynElab{#1}{#2}{#3}{#4}{#5}}
+        \NewDocumentCommand{\SynKindElab}{O{\TypVarCtx\ModVarCtx\SigVarCtx[]}mO{\knd}mO{\HoleCtx[]}}{\SynElab{#1}{#2}{#3}{#4}{#5}}
         \newcommand{\AnaElab}[5]{#1 \vdash #2~\Leftarrow~#3 \rightsquigarrow #4 \dashv #5}
-        \NewDocumentCommand{\AnaKindElab}{O{\TypVarCtx\ModVarCtx\SigVarCtx[]}O{\utyp}O{\knd}O{\typ}O{\HoleCtx[]}}{\AnaElab{#1}{#2}{#3}{#4}{#5}}
+        \NewDocumentCommand{\AnaKindElab}{O{\TypVarCtx\ModVarCtx\SigVarCtx[]}mO{\knd}mO{\HoleCtx[]}}{\AnaElab{#1}{#2}{#3}{#4}{#5}}
         \newcommand*{\ElabDegenerate}[4]{#1 \vdash #2 \rightsquigarrow #3 \dashv #4}
 \endinput

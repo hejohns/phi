@@ -106,7 +106,7 @@
         %\node[note] at (7, 2){$\utyp := \typ$};
         %\node[note] at (7, 3){$\usig := \sig$};
         %\node[note] at (7, 1){$\umod := \mod$};
-        \node[note] at (0.7, 4){$\ConsistentSubkindOp$};
+        \node[note] at (0.7, 4){$\ConsistentSubKindOp$};
         \node[note] at (4.7, 5){$\ConsistentSubSigKindOp$};
         \node[note] at (10.1, 3){$\SubSdecOp$};
         \draw[->](utyp.east)--(typ.west);
@@ -253,7 +253,7 @@
     \subsection*{}
     \begin{minipage}{\textwidth}
         scratch \\
-        \judgbox{\ConsistentSubkind{\HoleCtx;\TypVarCtx}{\knd[_1]}{\knd[_2]}}{$\knd[_1]$ is a consistent subkind of $\knd[_2]$}
+        \judgbox{\ConsistentSubKind{\HoleCtx;\TypVarCtx}{\knd[_1]}{\knd[_2]}}{$\knd[_1]$ is a consistent subkind of $\knd[_2]$}
         \begin{mathpar}
             \inferrule[KCSubsumption]{test}{test}
         \end{mathpar}
@@ -361,7 +361,7 @@
         \judgbox{\SubSdec{\HoleCtx;\TypVarCtx;\ModVarCtx;\SigVarCtx}{\sdec[_1]}{\sdec[_2]}}{$\sdec[_1]$ is a subsdec of $\sdec[_2]$}
         \begin{mathpar}
             \inferrule[singleType]{
-                \ConsistentSubkind{}{\knd[_1]}{\knd[_2]}
+                \ConsistentSubKind{}{\knd[_1]}{\knd[_2]}
             }
             {\SubSdec{\HoleCtx;\TypVarCtx;\ModVarCtx;\SigVarCtx}{\TypeSdec{\lab}{\knd[_1]}}{\TypeSdec{\lab}{\knd[_2]}}}
             \and
@@ -610,7 +610,7 @@
     \[
         \mathrm{
             If~\Syn{cntxts}{\typ}{\knd}~then~
-            \forall \knd[_1].\WellFormedAtKind{cntxts}{\typ}{\knd[_1]} \implies \ConsistentSubkind{cntxts}{\knd}{\knd[_1]}
+            \forall \knd[_1].\WellFormedAtKind{cntxts}{\typ}{\knd[_1]} \implies \ConsistentSubKind{cntxts}{\knd}{\knd[_1]}
         }
     \]
 \end{document}
