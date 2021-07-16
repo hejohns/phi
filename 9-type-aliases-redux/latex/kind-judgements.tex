@@ -41,7 +41,8 @@
 
 \newcommand{\Ty}{\textt{Ty}}
 \newcommand{\KHole}{\textt{KHole}}
-\newcommand{\KSing}[1]{\textt{S(}#1{\textt{)}}}
+\newcommand*{\KSing}[1]{\mathtt{S(}#1{\textt{)}}}
+\newcommand*{\SKind}[2][\hkappa]{\mathtt{S_{#1}(}#2{\textt{)}}}
 \newcommand{\hlist}[1]{\textt{list(}#1\textt{)}}
 
 \newcommand{\llparenthesiscolor}{\textcolor{violet}{\llparenthesis}}
@@ -66,7 +67,7 @@
 			\mathsf{BinOp}               & \oplus & ::= &
 			\textt{Product} ~\vert~ \textt{Sum} ~\vert~ \textt{Arrow}                                          \\
 			\mathsf{Kind}                & \kappa & ::= &
-			\Ty ~\vert~ \KHole ~\vert~ \KSing{\tau}                                                            \\
+                        \Ty ~\vert~ \KHole ~\vert~ \SKind{\tau}                                                            \\
 			\mathsf{Constant Types}      & c      & ::= &
 			\textt{Int} ~\vert~ \textt{Float} ~\vert~ \textt{Bool}                                             \\
 			\mathsf{User HTyp}           & \htau  & ::= &
@@ -103,9 +104,9 @@
 		}
 		\and
 		\inferrule[KCSubsumption]{
-			\kindAna{\Delta;\hPhi}{\dtau}{\Ty}
+			\kindAna{\Delta;\hPhi}{\dtau}{\hkappa}
 		} {
-			\kconsubkind{\Delta;\hPhi}{\KSing{\dtau}}{\Ty}
+                        \kconsubkind{\Delta;\hPhi}{\SKind{\dtau}}{\hkappa}
 		}
 	\end{mathpar}
 \end{minipage}
@@ -133,9 +134,10 @@
 		\inferrule[KFHole] { }{ \kformation{\Delta;\hPhi}{\KHole} }
 		\and
 		\inferrule[KFSing]{
-			\kindAna{\Delta;\hPhi}{\dtau}{\Ty}
+                        \kformation{\Delta;\hPhi}{\hkappa} \\
+			\kindAna{\Delta;\hPhi}{\dtau}{\hkappa}
 		} {
-			\kformation{\Delta;\hPhi}{\KSing{\dtau}}
+			\kformation{\Delta;\hPhi}{\SKind{\dtau}}
 		}
 	\end{mathpar}
 \end{minipage}
@@ -167,8 +169,14 @@
 		\inferrule[KESingEquiv]{
 			\kcequiv{\Delta;\hPhi}{\dtau_1}{\dtau_2}
 		} {
-			\kequiv{\Delta;\hPhi}{\KSing{\dtau_1}}{\KSing{\dtau_2}}
+                    \kequiv{\Delta;\hPhi}{\SKind[\Ty]{\dtau_1}}{\SKind[\Ty]{\dtau_2}}
 		}
+                \and
+                \inferrule[KESingReduc]{
+                    \kcequiv{\Delta;\hPhi}{\dtau'}{\dtau}
+                }{
+                \kequiv{\Delta;\hPhi}{\SKind[\SKind{\dtau'}]{\dtau}}{\SKind{\dtau'}}
+                }
 	\end{mathpar}
 \end{minipage}
 \\
@@ -180,13 +188,13 @@
 	{$\dtau$ synthesizes kind $\hkappa$}
 	\begin{mathpar}
 		\inferrule[KSConst]{ }{
-			\kindSyn{\Delta;\hPhi}{c}{\KSing{c}}
+                        \kindSyn{\Delta;\hPhi}{c}{\SKind[\Ty]{c}}
 		}
 		\and
 		\inferrule[KSVar]{
 			t : \hkappa \in \hPhi
 		} {
-			\kindSyn{\Delta;\hPhi}{t}{\KSing{t}}
+			\kindSyn{\Delta;\hPhi}{t}{\SKind{t}}
 		}
 		\and
 		\inferrule[KSUVar]{
@@ -196,16 +204,16 @@
 		}
 		\and
 		\inferrule[KSBinOp]{
-			\kindAna{\Delta;\hPhi}{\dtau_1}{\KSing{\dtau_1}} \\
-			\kindAna{\Delta;\hPhi}{\dtau_2}{\KSing{\dtau_2}}
+			\kindAna{\Delta;\hPhi}{\dtau_1}{\Ty} \\
+			\kindAna{\Delta;\hPhi}{\dtau_2}{\Ty}
 		} {
-			\kindSyn{\Delta;\hPhi}{\dtau_1 \oplus \dtau_2}{\KSing{\dtau_1 \oplus \dtau_2}}
+                    \kindSyn{\Delta;\hPhi}{\dtau_1 \oplus \dtau_2}{\SKind[\Ty]{\dtau_1 \oplus \dtau_2}}
 		}
 		\and
 		\inferrule[KSList]{
-			\kindAna{\Delta;\hPhi}{\dtau}{\KSing{\dtau}}
+			\kindAna{\Delta;\hPhi}{\dtau}{\Ty}
 		} {
-			\kindSyn{\Delta;\hPhi}{\hlist{\dtau}}{\KSing{\hlist{\dtau}}}
+                    \kindSyn{\Delta;\hPhi}{\hlist{\dtau}}{\SKind[\Ty]{\hlist{\dtau}}}
 		}
 		\and
 		\inferrule[KSEHole]{
@@ -252,7 +260,7 @@
 \begin{minipage}{\linewidth}
 	\judgbox
 	{\kcequiv{\Delta;\hPhi}{\dtau_1}{\dtau_2}}
-	{$\dtau_1$ is equivalent to $\dtau_2$} \;\\
+	{$\dtau_1$ is equivalent to $\dtau_2$ at kind $\Ty$} \;\\
 	\begin{mathpar}
 		\inferrule[KCESymm]{
 			\kcequiv{\Delta;\hPhi}{\dtau_1}{\dtau_2}
@@ -268,7 +276,7 @@
 		}
 		\and
 		\inferrule[KCESingEquiv]{
-			\kindAna{\Delta;\hPhi}{\dtau_1}{\KSing{\dtau_2}}
+                        \kindAna{\Delta;\hPhi}{\dtau_1}{\SKind[\Ty]{\dtau_2}}
 		} {
 			\kcequiv{\Delta;\hPhi}{\dtau_1}{\dtau_2}
 		}
@@ -319,26 +327,26 @@
 	{$\htau$ synthesizes kind $\hkappa$ and elaborates to $\dtau$}
 	\begin{mathpar}
 		\inferrule[TElabSConst]{ }{
-			\elabSyn{\hPhi}{c}{\KSing{c}}{c}{\EmptyDelta}
+                        \elabSyn{\hPhi}{c}{\SKind[\Ty]{c}}{c}{\EmptyDelta}
 		}
 		\and
 		\inferrule[TElabSBinOp]{
 			\elabAna{\hPhi}{\htau_1}{\Ty}{\dtau_1}{\Delta_1} \\
 			\elabAna{\hPhi}{\htau_2}{\Ty}{\dtau_2}{\Delta_2}
 		}{
-			\elabSyn{\hPhi}{\htau_1 \oplus \htau_2}{\KSing{\dtau_1 \oplus \dtau_2}}{\dtau_1 \oplus \dtau_2}{\Delta_1 \cup \Delta_2}
+                        \elabSyn{\hPhi}{\htau_1 \oplus \htau_2}{\SKind[\Ty]{\dtau_1 \oplus \dtau_2}}{\dtau_1 \oplus \dtau_2}{\Delta_1 \cup \Delta_2}
 		}
 		\and
 		\inferrule[TElabSList]{
 			\elabAna{\hPhi}{\htau}{\Ty}{\dtau}{\Delta}
 		} {
-			\elabSyn{\hPhi}{\hlist{\htau}}{\KSing{\hlist{\dtau}}}{\hlist{\dtau}}{\Delta}
+                        \elabSyn{\hPhi}{\hlist{\htau}}{\SKind[\Ty]{\hlist{\dtau}}}{\hlist{\dtau}}{\Delta}
 		}
 		\and
 		\inferrule[TElabSVar]{
 			t : \hkappa \in \hPhi
 		} {
-			\elabSyn{\hPhi}{t}{\KSing{t}}{t}{\EmptyDelta}
+			\elabSyn{\hPhi}{t}{\SKind{t}}{t}{\EmptyDelta}
 		}
 		\and
 		\inferrule[TElabSUVar]{
